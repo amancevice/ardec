@@ -7,12 +7,12 @@ import mock
 
 @ardec.migration('Example Migration')
 def example_migration():
-    pass
+    return True
 
 
 @ardec.stage('example_stage')
 def example_stage():
-    pass
+    return True
 
 
 def test_delta():
@@ -57,3 +57,8 @@ def test_stage_exit(mock_log, mock_delta, mock_enter):
     mock_delta.return_value = 1.2345
     example_stage()
     mock_log.assert_called_with('   -> 1.2345s\n')
+
+
+def test_log():
+    assert example_migration()
+    assert example_stage()
