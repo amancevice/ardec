@@ -4,6 +4,7 @@ ActiveRecord-style decorators
 Wrap functions in decorators to log output like an ActiveRecord migration.
 """
 
+import sys
 from datetime import datetime
 try:
     from contextlib import ContextDecorator
@@ -13,7 +14,7 @@ except ImportError:
 __version__ = '0.0.1'
 
 
-# pylint: disable=invalid-name,too-few-public-methods
+# pylint: disable=invalid-name
 class migration(ContextDecorator):
     """ Decorator for migrations. """
     def __init__(self, name):
@@ -23,15 +24,17 @@ class migration(ContextDecorator):
     def __enter__(self):
         self.start = datetime.utcnow()
         self.label = self.start.strftime("%Y%m%d%H%M%S")
-        # pylint: disable=superfluous-parens
-        print("== {} {} ".format(self.label, self.name).ljust(79, "="))
+        self.log(
+            "== {} {} "
+            .format(self.label, self.name)
+            .ljust(79, "=") + "\n")
         return self
 
     def __exit__(self, *exc):
-        # pylint: disable=superfluous-parens
-        print("== {} {} ({}s) "
-              .format(self.label, self.name, self.delta())
-              .ljust(79, "=") + "\n")
+        self.log(
+            "== {} {} ({}s) "
+            .format(self.label, self.name, self.delta())
+            .ljust(79, "=") + "\n\n")
         return False
 
     def delta(self):
@@ -39,17 +42,21 @@ class migration(ContextDecorator):
         start = self.start or datetime.utcnow()
         return round((datetime.utcnow() - start).total_seconds(), 4)
 
+    @staticmethod
+    def log(msg):
+        """ Write message to stdout & flush. """
+        sys.stdout.write(msg)
+        sys.stdout.flush()
+
 
 # pylint: disable=invalid-name,too-few-public-methods
 class stage(migration):
     """ Decorator for migration stages. """
     def __enter__(self):
         self.start = datetime.utcnow()
-        # pylint: disable=superfluous-parens
-        print("-- {}".format(self.name))
+        self.log("-- {}\n".format(self.name))
         return self
 
     def __exit__(self, *exc):
-        # pylint: disable=superfluous-parens
-        print("   -> {}s".format(self.delta()))
+        self.log("   -> {}s\n".format(self.delta()))
         return False
