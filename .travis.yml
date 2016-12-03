@@ -1,0 +1,19 @@
+language: python
+python:
+- '2.7'
+- '3.3'
+- '3.4'
+- '3.5'
+install: pip install . codecov pytest pytest-cov pylint
+script:
+- py.test --cov ardec
+- pylint ardec
+after_success: codecov
+deploy:
+  provider: pypi
+  user: amancevice
+  password:
+    secure: eooTWTMKDwEz5E0jW0oX1iG0ka5OL9mntffb7QOIgxq/UYzW7fowe2y+uuUMei3XfwA+KMKqE50GbnWC/qM7w9UR4Ht3pORGc4KevGy6soR5cQ3gTE5m7DXjr+7MsrWwyRFofZykDQoEU+gVItHwfv8G5t8DdduvZFMEec5sF1ov5V2ckBcYrpGuGn0JQSrBnKjABTb/DQz9S8Q1DvxZ4mXsGpn7FMyl4s8yLkPSUcXA1rl2WXF1K7KgVUcPXriE5k3F/WsgoHfZlYNNUZAQaZCLFR/b2VAToBvhcrULT2W0i3gmFcoDnMEXsii5kd7+fI29Rrp+eUuxopDFlonwfxplBG+J97I8NqnPE5k0RSo2Ipxol6tRp1LajDMWv3wwQxXUnIh7RzDF5MNu6RtWIygs6mggHgnVar054/4lcYOpCxeupNBzZB8yJuVm/bf8Ktjh6J6d5J3o5E3pyf6wnionEL4Tmqe777aAzSDY4ziBxNq1MxqCxeKaCl/aWQtempcUJUTDefI7/MRmQIhXPlSgGt8XUdnTb7wKEyT28eqdnRISG8fmBSlgZXp1eVW1yDEpmbQb5wfceZpFeLpPgXaHLd52mgkVpMfvr/UvSR4Qmdb+hS1uabOZ0sfVW42uy9GaPBvdT7orJxa91wZEzt+nfj5s+FHZ1BNmKGLBMX4=
+  on:
+    tags: true
+    repo: amancevice/ardec
