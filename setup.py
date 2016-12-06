@@ -21,7 +21,7 @@ CLASSIFIERS = [
     "Programming Language :: Python :: 3.4",
     "Programming Language :: Python :: 3.5",
     "Programming Language :: Python"]
-REQUIREMENTS = ['contextlib2>=0.5.4'] if sys.version_info[0] >= 3 else []
+REQUIREMENTS = ['contextlib2>=0.5.4'] if sys.version_info[0] < 3 else []
 
 
 def version():
