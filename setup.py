@@ -29,6 +29,7 @@ def version():
     initpy = open("./ardec/__init__.py").read()
     return re.search(search, initpy, re.MULTILINE).group(1)
 
+
 setup(
     name=NAME,
     version=version(),

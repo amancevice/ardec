@@ -11,14 +11,14 @@ try:
 except ImportError:
     from contextlib2 import ContextDecorator
 
-__version__ = '0.0.2'
+__version__ = '0.0.3'
 
 
 # pylint: disable=invalid-name
 class migration(ContextDecorator):
     """ Decorator for migrations. """
-    def __init__(self, name):
-        self.name = name
+    def __init__(self, name=None):
+        self.name = name or type(self).__name__
         self.start = self.label = None
 
     def __enter__(self):

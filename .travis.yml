@@ -4,6 +4,7 @@ python:
 - '3.3'
 - '3.4'
 - '3.5'
+- '3.6'
 install: pip install . codecov pytest pytest-cov pylint contextlib2
 script:
 - py.test --cov ardec
